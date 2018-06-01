@@ -1,0 +1,232 @@
+<!doctype html>
+<html class="no-js fixed-layout">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mysql数据库对比</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="assets/css/admin.css">
+  </head>
+  <body>
+    <!--[if lte IE 9]>
+    <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+  <![endif]-->
+  <header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+      <strong id="database"></strong>
+    </div>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+  </header>
+  <div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+      <div class="am-offcanvas-bar admin-offcanvas-bar">
+        <ul class="am-list admin-sidebar-list">
+          <li><a href="javascript:void(0);" onclick="table_list()"><span class="am-icon-home"></span>对比表</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- sidebar end -->
+    <!-- content start -->
+    <div class="admin-content">
+      <div class="admin-content-body">
+        <div class="am-g">
+        	<div class="am-u-sm-12" id="body">
+				<keep-alive>
+					<component :is="currentView" :ts='tables' :cls='columns' :fs='fields'>
+						<!-- 非活动组件将被缓存！ -->
+						<room-list></room-list>
+						<room-detail></room-detail>
+			  		</component>
+				</keep-alive>
+		  	</div>
+        </div>
+      </div>
+	<footer class="admin-content-footer">
+	  <p class="am-padding-left" id="info"></p>
+	</footer>
+      <!-- content end -->
+    </div>
+	
+	<script type='text/x-template' id='table-list-template'>
+	<table class="am-table am-table-bordered am-table-radius">
+        	<thead>
+            		<tr>
+             		<th>表名</th>
+				<th>差异</th>
+				<th>动作</th>
+			</tr>
+           	</thead>
+          	<tbody>
+			<tr v-for="item in ts.Changes" class="am-warning">
+				<td>{{item}}</td>
+				<td>修改</td>
+				<td>
+					<form class="am-form-inline" role="form">
+						<button v-on:click="column_list(item)" type="button" class="am-btn am-btn-success">对比列</button>
+					</form>
+				</td>
+             	</tr>
+			
+            		<tr v-for="item in ts.Adds" class="am-primary">
+				<td>{{item}}</td>
+				<td>新增</td>
+				<td></td>
+             	</tr>
+			
+			<tr v-for="item in ts.Dels" class="am-danger">
+				<td>{{item}}</td>
+				<td>删除</td>
+				<td></td>
+             	</tr>
+           	</tbody>
+      </table>
+	</script>
+	
+	<script type='text/x-template' id='column-list-template'>
+	<table class="am-table am-table-bordered am-table-radius">
+        	<thead>
+            		<tr>
+             		<th>列名</th>
+				<th>差异</th>
+				<th>动作</th>
+			</tr>
+           	</thead>
+          	<tbody>
+			<tr v-for="item in cls.Changes" class="am-warning">
+				<td>{{item}}</td>
+				<td>修改</td>
+				<td>
+					<form class="am-form-inline" role="form">
+						<button v-on:click="field_list(cls.Table, item)" type="button" class="am-btn am-btn-success">对比字段</button>
+					</form>
+				</td>
+             	</tr>
+			
+            		<tr v-for="item in cls.Adds" class="am-primary">
+				<td>{{item}}</td>
+				<td>新增</td>
+				<td></td>
+             	</tr>
+			
+			<tr v-for="item in cls.Dels" class="am-danger">
+				<td>{{item}}</td>
+				<td>删除</td>
+				<td></td>
+             	</tr>
+           	</tbody>
+      </table>
+	</script>
+	
+	<script type='text/x-template' id='field-list-template'>
+	<table class="am-table am-table-bordered am-table-radius">
+        	<thead>
+            		<tr>
+             		<th>属性名</th>
+				<th>旧值</th>
+				<th>新值</th>
+			</tr>
+           	</thead>
+          	<tbody>
+			<tr v-for="item in fs.Changes" class="am-active">
+				<td>{{item.Name}}</td>
+				<td>{{item.Old}}</td>
+				<td>{{item.Now}}</td>
+             	</tr>
+           	</tbody>
+      </table>
+	</script>
+	
+    <!--[if lt IE 9]>
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="assets/js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <script src="assets/js/amazeui.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script type="text/javascript">	
+		Vue.component('table-list', {
+ 			template: '#table-list-template',
+			props: ['ts'],
+			methods: {
+				column_list:column_list,
+			},
+		})
+		
+		Vue.component('column-list', {
+ 			template: '#column-list-template',
+			props: ['cls'],
+			methods: {
+				field_list:field_list,
+			},
+		})
+		
+		Vue.component('field-list', {
+ 			template: '#field-list-template',
+			props: ['fs'],
+		})
+		
+		var body = new Vue({
+			el: '#body',
+			data: {
+				tables:[],
+				columns:[],
+				fields:[],
+		    		currentView: 'table-list',
+		  	},
+		})
+		
+		function field_list(table, column) {
+			$.get('/api/field/list?table='+table+'&column='+column,function(data){
+				body.fields = $.parseJSON(data)
+				body.currentView = 'field-list'
+    			})
+	   	}
+		
+		function column_list(table) {
+			$.get('/api/column/list?table='+table,function(data){
+				body.columns = $.parseJSON(data)
+				body.currentView = 'column-list'
+    			})
+	   	}
+		
+		function table_list() {
+			$.get('/api/table/list',function(data){
+				body.tables = $.parseJSON(data)
+				body.currentView = 'table-list'
+    			})
+	   	}
+		
+		function server_info() {
+		      	$.getJSON('/server/info',function(data){
+				var arr = new Array(5)
+				arr[0] = 'githash'+data.GitHash
+				arr[1] = '编译时间'+data.CompileTime
+				arr[2] = data.LeftJson+'<----->'+data.RightJson
+				arr[3] = '当前时间'+data.Now
+				$("#info").text(arr.join('    '))
+					
+				var left = data.LeftServer.Title+":"+data.LeftServer.DataBase
+				var right = data.RightServer.Title+":"+data.RightServer.DataBase
+					
+				$("#database").text(left+'<---->'+right)
+	    		})
+		}
+		
+		$(server_info); 
+    </script>
+  </body>
+</html>

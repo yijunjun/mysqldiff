@@ -1,7 +1,8 @@
 {
-	"Title":"test",
+	"Title":"测试服",
 	"Host":"127.0.0.1",
 	"Port":3306,
 	"User":"dw",
-	"Password":"dw_wd251"
+	"Password":"dw_wd251",
+	"DataBase":"dw"
 }

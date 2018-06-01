@@ -1,6 +1,8 @@
 {
+	"Title":"right",
 	"Host":"remoteip",
 	"Port":3306,
 	"User":"username",
-	"Password":"password"
+	"Password":"password",
+	"DataBase":"dw"
 }

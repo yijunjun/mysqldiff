@@ -1,0 +1,13 @@
+#! /bin/sh
+
+target=mysqldiff
+
+go build -ldflags "-s -w -X main.COMPILETIME=`date '+%Y-%m-%d_%H:%M:%S'` -X main.GITHASH=`git rev-parse --short HEAD`" -o $target .
+
+pid=`ps -fe|grep ${target}$|grep -v grep|awk '{print $2}'`
+
+if [[ $pid -gt 0 ]];then
+    kill  $pid
+fi
+
+./$target  
