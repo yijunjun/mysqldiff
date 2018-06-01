@@ -1,5 +1,5 @@
-local_left.conf
-local_right.conf
+local_left.json
+local_right.json
 *.tar.gz
 .DS_Store
 mysqldiff
