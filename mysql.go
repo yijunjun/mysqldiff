@@ -161,6 +161,9 @@ func NewMySqlServer(jsonConf string) (*MySqlServer, error) {
 	if err != nil {
 		return nil, NewStackErr(err.Error())
 	}
+
+	mss.SetMaxOpenConns(3)
+	mss.SetMaxIdleConns(1)
 	return mss, nil
 }
 

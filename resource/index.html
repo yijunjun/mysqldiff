@@ -80,13 +80,15 @@
             		<tr v-for="item in ts.Adds" class="am-primary">
 				<td>{{item}}</td>
 				<td>新增</td>
-				<td></td>
+				<td>
+				</td>
              	</tr>
 			
 			<tr v-for="item in ts.Dels" class="am-danger">
 				<td>{{item}}</td>
 				<td>删除</td>
-				<td></td>
+				<td>
+				</td>
              	</tr>
            	</tbody>
       </table>
@@ -115,13 +117,15 @@
             		<tr v-for="item in cls.Adds" class="am-primary">
 				<td>{{item}}</td>
 				<td>新增</td>
-				<td></td>
+				<td>
+				</td>
              	</tr>
 			
 			<tr v-for="item in cls.Dels" class="am-danger">
 				<td>{{item}}</td>
 				<td>删除</td>
-				<td></td>
+				<td>
+				</td>
              	</tr>
            	</tbody>
       </table>
@@ -134,6 +138,7 @@
              		<th>属性名</th>
 				<th>旧值</th>
 				<th>新值</th>
+				<th>动作</th>
 			</tr>
            	</thead>
           	<tbody>
@@ -141,6 +146,11 @@
 				<td>{{item.Name}}</td>
 				<td>{{item.Old}}</td>
 				<td>{{item.Now}}</td>
+				<td>
+					<form class="am-form-inline" role="form">
+						<button v-on:click="column_list(fs.Table)" type="button" class="am-btn am-btn-secondary">返回</button>
+					</form>
+				</td>
              	</tr>
            	</tbody>
       </table>
@@ -177,6 +187,9 @@
 		Vue.component('field-list', {
  			template: '#field-list-template',
 			props: ['fs'],
+			methods: {
+				column_list:column_list,
+			},
 		})
 		
 		var body = new Vue({
