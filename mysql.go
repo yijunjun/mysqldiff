@@ -37,6 +37,19 @@ import (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
 */
 
+func (this *MySqlServer) ShowCreate(table string) (string, error) {
+	var name, res string
+	err := this.QueryRow(fmt.Sprintf(
+		"SHOW CREATE TABLE `%v`.`%v`",
+		this.DataBase, table,
+	)).Scan(&name, &res)
+	if err != nil {
+		return "", NewStackErr(err.Error())
+	}
+
+	return res, nil
+}
+
 func (this *MySqlServer) GetColumn(table, column string) (*Column, error) {
 	sql := fmt.Sprintf(`
 		select 
