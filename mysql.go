@@ -159,11 +159,12 @@ func NewMySqlServer(jsonConf string) (*MySqlServer, error) {
 	mss.DB, err = sql.Open(
 		"mysql",
 		fmt.Sprintf(
-			"%v:%v@tcp(%v:%v)/?charset=utf8",
+			"%v:%v@tcp(%v:%v)/%v?charset=utf8",
 			mss.User,
 			mss.Password,
 			mss.Host,
 			mss.Port,
+			mss.DataBase,
 		),
 	)
 	if err != nil {

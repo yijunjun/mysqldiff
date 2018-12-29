@@ -1,3 +1,4 @@
+.idea/
 mysqldiff_run/
 local_left.json
 local_right.json
