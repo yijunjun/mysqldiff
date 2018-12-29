@@ -178,6 +178,12 @@ func NewMySqlServer(jsonConf string) (*MySqlServer, error) {
 		return nil, NewStackErr(err.Error())
 	}
 
+	_, err = mss.Exec(fmt.Sprintf("use %v", mss.DataBase))
+	if err != nil {
+		return nil, NewStackErr(err.Error())
+	}
+
+
 	mss.SetMaxOpenConns(3)
 	mss.SetMaxIdleConns(1)
 	return mss, nil
