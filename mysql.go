@@ -156,6 +156,8 @@ func NewMySqlServer(jsonConf string) (*MySqlServer, error) {
 		return nil, NewStackErr(err.Error())
 	}
 
+	fmt.Println("mysql:", mss)
+
 	mss.DB, err = sql.Open(
 		"mysql",
 		fmt.Sprintf(
