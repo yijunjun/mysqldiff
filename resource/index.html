@@ -226,10 +226,10 @@
 		function server_info() {
 		      	$.getJSON('/server/info',function(data){
 				var arr = new Array(5)
-				arr[0] = 'githash'+data.GitHash
-				arr[1] = '编译时间'+data.CompileTime
+				arr[0] = 'githash:'+data.GitHash
+				arr[1] = '编译时间:'+data.CompileTime
 				arr[2] = data.LeftJson+'<----->'+data.RightJson
-				arr[3] = '当前时间'+data.Now
+				arr[3] = '当前时间:'+data.Now
 				$("#info").text(arr.join('    '))
 					
 				var left = data.LeftServer.Title+":"+data.LeftServer.DataBase

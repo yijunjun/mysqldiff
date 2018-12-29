@@ -84,7 +84,7 @@ func (this *MySqlServer) ListColumns(table string) ([]*Column, error) {
 		 IS_NULLABLE, DATA_TYPE, COLUMN_TYPE, 
 		COLUMN_COMMENT,COLUMN_KEY
 		from information_schema.columns 
-		where table_name = '%v' and and TABLE_SCHEMA='%v'
+		where table_name = '%v' and TABLE_SCHEMA='%v'
 	`, table, this.DataBase)
 	rows, err := this.Query(sql)
 	if err != nil {
@@ -177,12 +177,6 @@ func NewMySqlServer(jsonConf string) (*MySqlServer, error) {
 	if err != nil {
 		return nil, NewStackErr(err.Error())
 	}
-
-	_, err = mss.Exec(fmt.Sprintf("use %v", mss.DataBase))
-	if err != nil {
-		return nil, NewStackErr(err.Error())
-	}
-
 
 	mss.SetMaxOpenConns(3)
 	mss.SetMaxIdleConns(1)
